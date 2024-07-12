@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+}
+
+.input {
+  margin: 0px;
+  margin-left: 10px;
+}
+
+.input:focus {
+  outline: none;
+}
