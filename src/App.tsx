@@ -1,8 +1,9 @@
-import { Typography } from './components/atoms/Typography';
 import ListContainer from './components/organisms/ListContainer';
 import ActiveLists from './components/templates/ActiveLists';
 import './output.css'
 import { TodosProvider } from './providers/todosProviders';
+import Header from './components/organisms/Header';
+import Footer from './components/organisms/Footer';
 
 function App() {
 
@@ -11,8 +12,9 @@ function App() {
       <TodosProvider>
         <ActiveLists>
           <div>
-            <Typography variant="h1">My todo lists</Typography>
+            <Header />
             <ListContainer />
+            <Footer />
           </div>
         </ActiveLists>
       </TodosProvider>

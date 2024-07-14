@@ -3,6 +3,8 @@ import Todo from "../Todo";
 import styles from './TodoList.module.css'
 import IconTrash from "../../atoms/IconTrash";
 import { useTodosDispatch } from "../../../providers/todosProviders";
+import { classNames } from "../../../helpers/helpers";
+import IconPlus from "../../atoms/IconPlus";
 
 export default function TodoList({
   id,
@@ -44,7 +46,7 @@ export default function TodoList({
         />
       ))}
 
-      <button onClick={() => dispatch({type: 'newTodo', listId: id})}>Add item</button>
+      <button className="btn btn-sm m-2 btn-circle" onClick={() => dispatch({type: 'newTodo', listId: id})}><IconPlus/></button>
 
       {!!todos.filter(todo => !todo.isActive).length && <hr  className={styles.spacer}/>}
 

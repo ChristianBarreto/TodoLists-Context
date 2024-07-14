@@ -22,6 +22,9 @@ if (localStorage.getItem("todoLists") === 'null'){
       {id: 1, text: "My todo 2", isActive: true},
       {id: 2, text: "My todo 3", isActive: false},
     ]},
+    {id: 1, title: "My second list (edit me)", todos: [
+      {id: 0, text: "My todo 1", isActive: true},
+    ]}
   ];
 }
 
