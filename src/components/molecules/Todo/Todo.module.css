@@ -12,3 +12,8 @@
 .input:focus {
   outline: none;
 }
+
+.todoInactive {
+  color: #b7b7b7;
+  text-decoration: line-through;
+}

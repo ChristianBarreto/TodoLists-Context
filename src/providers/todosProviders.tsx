@@ -1,17 +1,44 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, ReactNode, useContext, useReducer } from 'react';
+import { List, Todo } from '../types/types';
+import { nextId } from '../helpers/helpers';
 
-const TodosContext = createContext(null);
+interface Action {
+  type: string,
+  list: List,
+  todo: Todo,
+  listId: number,
+  todoId: number
+}
 
-const TodosDispatchContext = createContext(null);
+let initialLists: List[] = [];
 
-export function TodosProvider({ children }) {
-  const [tasks, dispatch] = useReducer(
+if (localStorage.getItem("todoLists") === 'null'){
+  localStorage.setItem("todoLists", JSON.stringify([]));
+} else {
+  initialLists = JSON.parse(localStorage.getItem("todoLists") as string)
+  || [
+    {id: 0, title: "My first list (edit me)", todos: [
+      {id: 0, text: "My todo 1", isActive: true},
+      {id: 1, text: "My todo 2", isActive: true},
+      {id: 2, text: "My todo 3", isActive: false},
+    ]},
+  ];
+}
+
+const TodosContext = createContext<List[]>([]);
+
+const TodosDispatchContext = createContext({});
+
+export function TodosProvider({ children }: {children: ReactNode}) {
+  const [lists, dispatch] = useReducer(
     tasksReducer,
     initialLists
   );
 
+  localStorage.setItem("todoLists", JSON.stringify(lists));
+
   return (
-    <TodosContext.Provider value={tasks}>
+    <TodosContext.Provider value={lists}>
       <TodosDispatchContext.Provider value={dispatch}>
         {children}
       </TodosDispatchContext.Provider>
@@ -27,37 +54,70 @@ export function useTodosDispatch() {
   return useContext(TodosDispatchContext);
 }
 
-function tasksReducer(lists, action) {
+function tasksReducer(lists: List[], action: Action) {
   switch (action.type) {
     case 'addList': {
       return [...lists, {
-        id: action.id,
-        title: action.title,
+        id: nextId(lists),
+        title: "",
         todos: []
       }];
     }
     case 'changeList': {
-      return lists.map(t => {
-        if (t.id === action.task.id) {
-          return action.task;
+      return lists.map((list: List) => {
+        if (list.id === action.list.id) {
+          return action.list;
         } else {
-          return t;
+          return list;
         }
       });
     }
     case 'deleteList': {
-      return lists.filter(t => t.id !== action.id);
+      return lists.filter((list: List) => list.id !== action.list.id);
+    }
+    case 'changeTodoInAList': {
+      return lists.map((list: List) => {
+        if (list.id === action.listId) {
+          return {
+            ...list,
+            todos: list.todos.map(todo => {
+            if(todo.id === action.todo.id) {
+              return action.todo;
+            }
+            return todo;
+          })}
+        } else {
+          return list;
+        }
+      });
+    }
+    case 'newTodo': {
+      return lists.map((list: List) => {
+        if (list.id === action.listId) {
+          const newTodos = [...list.todos]
+          return {
+            ...list,
+            todos: [...newTodos, {id: nextId(newTodos), text: "", isActive: true}],
+          }
+        } else {
+          return list;
+        }
+      });
+    }
+    case 'deleteTodo': {
+      return lists.map((list: List) => {
+        if (list.id === action.listId) {
+          return {
+            ...list,
+            todos: list.todos.filter(todo => todo.id !== action.todoId),
+          }
+        } else {
+          return list;
+        }
+      });
     }
     default: {
       throw Error('Unknown action: ' + action.type);
     }
   }
 }
-
-const initialLists = [
-  {id: 4, title: "First list", todos: [
-    {id: 1, text: "My todo 1", isActive: true},
-    {id: 2, text: "My todo 2", isActive: true},
-    {id: 3, text: "My todo 3", isActive: false},
-  ]},
-]
