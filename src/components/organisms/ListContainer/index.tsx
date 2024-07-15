@@ -1,5 +1,5 @@
-import styles from './ListContainer.module.css'
-import { useTodos, useTodosDispatch } from '../../../providers/todosProviders'
+import styles from './ListContainer.module.css';
+import { useTodos } from '../../../providers/todosProviders';
 import TodoList from '../../molecules/TodoList';
 import { List } from '../../../types/types';
 

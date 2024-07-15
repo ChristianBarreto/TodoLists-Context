@@ -30,7 +30,7 @@ if (localStorage.getItem("todoLists") === 'null'){
 
 const TodosContext = createContext<List[]>([]);
 
-const TodosDispatchContext = createContext({});
+export const TodosDispatchContext = createContext({});
 
 export function TodosProvider({ children }: {children: ReactNode}) {
   const [lists, dispatch] = useReducer(

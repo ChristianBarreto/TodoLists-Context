@@ -2,20 +2,18 @@ import ListContainer from './components/organisms/ListContainer';
 import ActiveLists from './components/templates/ActiveLists';
 import './output.css'
 import { TodosProvider } from './providers/todosProviders';
-import Header from './components/organisms/Header';
-import Footer from './components/organisms/Footer';
 
 function App() {
 
   return (
     <>
       <TodosProvider>
+        {/* This is a single page application, but in case we have more pages
+          here we can easily implement it using react router dom, the ActiveLists
+          template will display the header, footer, breadcrumbs for all pages.
+        */}
         <ActiveLists>
-          <div>
-            <Header />
-            <ListContainer />
-            <Footer />
-          </div>
+          <ListContainer />
         </ActiveLists>
       </TodosProvider>
     </>

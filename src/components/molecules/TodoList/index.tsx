@@ -3,8 +3,9 @@ import Todo from "../Todo";
 import styles from './TodoList.module.css'
 import IconTrash from "../../atoms/IconTrash";
 import { useTodosDispatch } from "../../../providers/todosProviders";
-import { classNames } from "../../../helpers/helpers";
 import IconPlus from "../../atoms/IconPlus";
+import { TodosDispatchContext } from "../../../providers/todosProviders";
+import { useContext } from "react";
 
 export default function TodoList({
   id,
@@ -12,6 +13,7 @@ export default function TodoList({
   todos
 }: List) {
   const dispatch = useTodosDispatch();
+  const disp = useContext(TodosDispatchContext);
 
   return (
     <div className={styles.container}>
@@ -19,7 +21,7 @@ export default function TodoList({
         value={title}
         className={styles.input}
         placeholder="Title"
-        onChange={(e) => dispatch({
+        onChange={(e) => disp({
           type: 'changeList',
           list: {id: id, title: e.target.value, todos: todos}
         })}
