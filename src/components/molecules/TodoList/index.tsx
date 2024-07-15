@@ -2,18 +2,15 @@ import { List } from "../../../types/types";
 import Todo from "../Todo";
 import styles from './TodoList.module.css'
 import IconTrash from "../../atoms/IconTrash";
-import { useTodosDispatch } from "../../../providers/todosProviders";
 import IconPlus from "../../atoms/IconPlus";
-import { TodosDispatchContext } from "../../../providers/todosProviders";
-import { useContext } from "react";
+import { useTodos } from "../../../providers/todosProviders";
 
 export default function TodoList({
   id,
   title,
   todos
 }: List) {
-  const dispatch = useTodosDispatch();
-  const disp = useContext(TodosDispatchContext);
+  const [, dispatch] = useTodos()
 
   return (
     <div className={styles.container}>
@@ -21,7 +18,7 @@ export default function TodoList({
         value={title}
         className={styles.input}
         placeholder="Title"
-        onChange={(e) => disp({
+        onChange={(e) => dispatch({
           type: 'changeList',
           list: {id: id, title: e.target.value, todos: todos}
         })}

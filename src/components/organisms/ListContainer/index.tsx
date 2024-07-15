@@ -4,7 +4,7 @@ import TodoList from '../../molecules/TodoList';
 import { List } from '../../../types/types';
 
 export default function ListContainer() {
-  const lists = useTodos();
+  const [lists,] = useTodos();
 
   return (
     <div className={styles.container}>

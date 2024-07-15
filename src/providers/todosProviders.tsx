@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useReducer } from 'react';
+import { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import { List, Todo } from '../types/types';
 import { nextId } from '../helpers/helpers';
 
@@ -28,9 +28,7 @@ if (localStorage.getItem("todoLists") === 'null'){
   ];
 }
 
-const TodosContext = createContext<List[]>([]);
-
-export const TodosDispatchContext = createContext({});
+export const TodosContext = createContext<(List[] | Dispatch<Action>)[] | []>();
 
 export function TodosProvider({ children }: {children: ReactNode}) {
   const [lists, dispatch] = useReducer(
@@ -41,20 +39,14 @@ export function TodosProvider({ children }: {children: ReactNode}) {
   localStorage.setItem("todoLists", JSON.stringify(lists));
 
   return (
-    <TodosContext.Provider value={lists}>
-      <TodosDispatchContext.Provider value={dispatch}>
-        {children}
-      </TodosDispatchContext.Provider>
+    <TodosContext.Provider value={[lists, dispatch]}>
+      {children}
     </TodosContext.Provider>
   );
 }
 
 export function useTodos() {
   return useContext(TodosContext);
-}
-
-export function useTodosDispatch() {
-  return useContext(TodosDispatchContext);
 }
 
 function tasksReducer(lists: List[], action: Action) {

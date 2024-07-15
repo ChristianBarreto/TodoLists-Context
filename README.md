@@ -12,6 +12,13 @@ If you are accessing at the first time, you will see two pre defiened to-do list
 
 **Beyond the requirements** I decided not only to follow the requirement but go beyond: This application does not only allow the user create to-do tasks in a list, but they can create multiple lists to be at your disposal.
 
+To run the application type on terminal:
+```
+npm run dev 
+(or)
+yarn dev
+````
+
 ## 2. Archtecture & Design patterns
 
 ### 2.1 Directory structure
@@ -45,8 +52,14 @@ Was included a simple animation when a mouse hovers a list. This animation was i
 ### 2.9 ESLint
 This codebase is configured with ESLint for code standardization and styling.
 
+### 2.10 Testing
+I added a E2E test environment called Cypress that can be run with command:
 
-## 3. Who am I
+> npm run dev:cypress
+> (or)
+> yarn dev:cypress
+
+## 3. $ whoami
 > **Christian Barreto**
 > 5 years experienced front end developer.
 > Click here for [My LinkedIn](https://www.linkedin.com/in/christiannabasbarreto/).
